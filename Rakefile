@@ -77,13 +77,20 @@ def wait_server(port=3000)
   raise "Waited for the server but it did not finish"
 end
 
-desc 'Start server'
-task :server do
-  process 'fake_server' 
-end
 
 namespace :test do
-  
+	namespace :server do
+		desc 'Start test server'
+		task :start do
+			process 'fake_server'
+		end
+
+		desc 'Stop test server'
+		task :stop do
+			kill_server 'fake_server'
+		end
+	end
+
   desc "Execute integration Order tests"
   task :integration do
     integration_path = "spec/integration/order/server"
